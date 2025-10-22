@@ -1,0 +1,43 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: IeltsPlatform.ApiService/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - AWS_REGION=us-east-1
+      # For local development, you can use LocalStack or configure AWS credentials
+      # - AWS_ACCESS_KEY_ID=your_access_key
+      # - AWS_SECRET_ACCESS_KEY=your_secret_key
+    networks:
+      - ielts-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
+
+  # Uncomment to add LocalStack for local AWS service emulation
+  # localstack:
+  #   image: localstack/localstack:latest
+  #   ports:
+  #     - "4566:4566"
+  #   environment:
+  #     - SERVICES=s3,dynamodb
+  #     - DEBUG=1
+  #     - DATA_DIR=/tmp/localstack/data
+  #   volumes:
+  #     - localstack-data:/tmp/localstack
+  #   networks:
+  #     - ielts-network
+
+networks:
+  ielts-network:
+    driver: bridge
+
+# volumes:
+#   localstack-data:
