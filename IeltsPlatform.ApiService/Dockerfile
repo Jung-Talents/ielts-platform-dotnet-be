@@ -5,6 +5,9 @@ WORKDIR /src
 # Copy csproj files and restore dependencies
 COPY ["IeltsPlatform.ApiService/IeltsPlatform.ApiService.csproj", "IeltsPlatform.ApiService/"]
 COPY ["IeltsPlatform.ServiceDefaults/IeltsPlatform.ServiceDefaults.csproj", "IeltsPlatform.ServiceDefaults/"]
+COPY ["IeltsPlatform.Domain/IeltsPlatform.Domain.csproj", "IeltsPlatform.Domain/"]
+COPY ["IeltsPlatform.Application/IeltsPlatform.Application.csproj", "IeltsPlatform.Application/"]
+COPY ["IeltsPlatform.Infrastructure/IeltsPlatform.Infrastructure.csproj", "IeltsPlatform.Infrastructure/"]
 RUN dotnet restore "IeltsPlatform.ApiService/IeltsPlatform.ApiService.csproj"
 
 # Copy everything else and build

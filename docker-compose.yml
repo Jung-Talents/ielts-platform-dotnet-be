@@ -1,21 +1,55 @@
 services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ielts-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=ielts_platform
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - ielts-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   api:
     build:
       context: .
       dockerfile: IeltsPlatform.ApiService/Dockerfile
+    container_name: ielts-api
     ports:
       - "8080:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
-      - AWS_REGION=us-east-1
-      # For local development, you can use LocalStack or configure AWS credentials
-      # - AWS_ACCESS_KEY_ID=your_access_key
-      # - AWS_SECRET_ACCESS_KEY=your_secret_key
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=ielts_platform;Username=postgres;Password=postgres
+      - JwtSettings__Secret=your-secret-key-min-32-characters-long-for-security
+      - JwtSettings__AccessTokenExpiresInSeconds=900
+      - JwtSettings__RefreshTokenExpiresInSeconds=2592000
+      - AWS__Region=ap-southeast-2
+      - AWS__BucketName=${AWS_BUCKET_NAME}
+      - AWS__AccessKeyId=${AWS_ACCESS_KEY_ID}
+      - AWS__SecretAccessKey=${AWS_SECRET_ACCESS_KEY}
+      - Email__SmtpHost=email-smtp.ap-southeast-2.amazonaws.com
+      - Email__SmtpPort=587
+      - Email__SmtpUser=${EMAIL_SMTP_USER}
+      - Email__SmtpPassword=${EMAIL_SMTP_PASSWORD}
+      - Email__FromAddress=info@nhanvaneducation.com
+      - Email__FromName=No Reply
+      - GoogleAuth__ClientId=${GOOGLE_CLIENT_ID}
+    depends_on:
+      postgres:
+        condition: service_healthy
     networks:
       - ielts-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/health || exit 1"]
       interval: 30s
       timeout: 5s
       retries: 3
@@ -24,10 +58,11 @@ services:
   # Uncomment to add LocalStack for local AWS service emulation
   # localstack:
   #   image: localstack/localstack:latest
+  #   container_name: ielts-localstack
   #   ports:
   #     - "4566:4566"
   #   environment:
-  #     - SERVICES=s3,dynamodb
+  #     - SERVICES=s3,ses
   #     - DEBUG=1
   #     - DATA_DIR=/tmp/localstack/data
   #   volumes:
@@ -39,5 +74,6 @@ networks:
   ielts-network:
     driver: bridge
 
-# volumes:
-#   localstack-data:
+volumes:
+  postgres-data:
+  # localstack-data:
