@@ -156,6 +156,8 @@ aws ecs update-service --cluster ielts-platform-dev-cluster --service ielts-plat
 
 For detailed configuration, see [.github/workflows/README.md](.github/workflows/README.md)
 
+📘 **New to GitHub Actions?** Check out the [Quick Start Guide](GITHUB_ACTIONS_QUICKSTART.md)
+
 ### Workflows
 
 The GitHub Actions pipeline includes:
