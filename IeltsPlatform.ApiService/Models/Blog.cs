@@ -22,13 +22,13 @@ namespace IeltsPlatform.ApiService.Models
         [Required]
         public BlogTheme Theme { get; set; }
 
-        [Column(TypeName = "timestamp without time zone")]
+        [Column(TypeName = "timestamp with time zone")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        [Column(TypeName = "timestamp without time zone")]
+        [Column(TypeName = "timestamp with time zone")]
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-        [Column(TypeName = "timestamp without time zone")]
+        [Column(TypeName = "timestamp with time zone")]
         public DateTime? DeletedAt { get; set; }
     }
 }
