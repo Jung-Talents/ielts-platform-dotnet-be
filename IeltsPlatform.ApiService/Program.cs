@@ -1,5 +1,7 @@
 using Amazon;
 using Amazon.Extensions.NETCore.Setup;
+using Microsoft.EntityFrameworkCore;
+using IeltsPlatform.ApiService.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,13 @@ builder.Services.AddAWSService<Amazon.DynamoDBv2.IAmazonDynamoDB>();
 
 // Add services to the container.
 builder.Services.AddProblemDetails();
+
+// Add DbContext
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Add controllers
+builder.Services.AddControllers();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -44,6 +53,7 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast");
 
+app.MapControllers();
 app.MapDefaultEndpoints();
 
 app.Run();
