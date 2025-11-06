@@ -16,8 +16,8 @@
             return new Blog(blog_name, blog_content, blog_status, blog_theme);
         }
         public Guid Id { get; set; }
-        public string BlogName { get; set; }
-        public string BlogContent { get; set; }
+        public required string BlogName { get; set; }
+        public required string BlogContent { get; set; }
         public enum Status
         {
             Draft,
