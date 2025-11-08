@@ -2,7 +2,7 @@
 {
     public sealed class Blog
     {
-        protected Blog() { }
+        private Blog() { }
         private Blog(string name, string content, BlogStatus status, BlogTheme theme)
         {
             Id = Guid.NewGuid();
@@ -16,8 +16,8 @@
             return new Blog(name, content, status, theme);
         }
         public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Content { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Content { get; set; } = string.Empty;
         public BlogStatus Status { get; set; }
         public BlogTheme Theme { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; } = DateTimeOffset.UtcNow;

@@ -7,11 +7,6 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//SQL
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(connectionString));
-
 // Add service defaults & Aspire client integrations.
 builder.AddServiceDefaults();
 
@@ -48,8 +43,6 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
-
-app.MapControllers();
 
 app.MapControllers();
 app.MapDefaultEndpoints();

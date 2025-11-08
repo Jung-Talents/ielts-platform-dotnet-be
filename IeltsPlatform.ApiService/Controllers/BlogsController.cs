@@ -10,8 +10,8 @@ namespace IeltsPlatform.ApiService.Controllers
     [ApiController]
     public class BlogsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        public BlogsController(ApplicationDbContext context)
+        private readonly AppDbContext _context;
+        public BlogsController(AppDbContext context)
         {
             _context = context;
         }

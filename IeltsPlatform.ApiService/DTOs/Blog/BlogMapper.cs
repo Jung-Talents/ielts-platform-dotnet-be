@@ -4,10 +4,10 @@
     {
         public static Entities.Blog CreateCategoryFromDto(CreateBlogRequest dto)
         {
-            return Entities.Blog.Create(dto.BlogName,
-                dto.BlogContent,
-                dto.BlogStatus,
-                dto.BlogTheme
+            return Entities.Blog.Create(dto.Name,
+                dto.Content,
+                dto.Status,
+                dto.Theme
             );
         }
     }
