@@ -1,39 +1,26 @@
 ﻿namespace IeltsPlatform.ApiService.Entities
 {
-    public class Blog
+    public sealed class Blog
     {
-        public Blog() { }
-        public Blog(string blog_name, string blog_content, Status blog_status, Theme blog_theme)
+        protected Blog() { }
+        private Blog(string name, string content, BlogStatus status, BlogTheme theme)
         {
             Id = Guid.NewGuid();
-            BlogName = blog_name;
-            BlogContent = blog_content;
-            BlogStatus = blog_status;
-            BlogTheme = blog_theme;
+            Name = name;
+            Content = content;
+            Status = status;
+            Theme = theme;
         }
-        public static Blog Create(string blog_name, string blog_content, Status blog_status, Theme blog_theme)
+        public static Blog Create(string name, string content, BlogStatus status, BlogTheme theme)
         {
-            return new Blog(blog_name, blog_content, blog_status, blog_theme);
+            return new Blog(name, content, status, theme);
         }
         public Guid Id { get; set; }
-        public required string BlogName { get; set; }
-        public required string BlogContent { get; set; }
-        public enum Status
-        {
-            Draft,
-            Published,
-            Archived
-        }
-        public Status BlogStatus { get; set; }
-        public enum Theme
-        {
-            Listening,
-            Reading,
-            Speaking,
-            Writing
-        }
-        public Theme BlogTheme { get; set; }
-        public DateTimeOffset? UpdatedAt { get; set; }
+        public string Name { get; set; }
+        public string Content { get; set; }
+        public BlogStatus Status { get; set; }
+        public BlogTheme Theme { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
         public DateTimeOffset? DeletedAt { get; set; }
     }

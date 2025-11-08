@@ -4,11 +4,18 @@ using System.Reflection;
 
 namespace IeltsPlatform.ApiService.Properties.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class AppDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
+        
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.ConfigureWarnings(w => w.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning));
+            base.OnConfiguring(optionsBuilder);
+        }
+
         public DbSet<Blog> Blogs => Set<Blog>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

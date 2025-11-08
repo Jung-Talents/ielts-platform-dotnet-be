@@ -37,7 +37,7 @@ namespace IeltsPlatform.ApiService.Controllers
                 var createdBlog = BlogMapper.CreateCategoryFromDto(request);
                 _context.Blogs.Add(createdBlog);
                 await _context.SaveChangesAsync(cancellation);
-                return Ok(new { Message = "Blog created successfully", BlogName = createdBlog.BlogName.ToString(), BlogTheme = createdBlog.BlogTheme.ToString(), BlogStatus = createdBlog.BlogStatus.ToString() });
+                return Ok(new { Message = "Blog created successfully", Name = createdBlog.Name.ToString(), Theme = createdBlog.Theme.ToString(), Status = createdBlog.Status.ToString() });
             }
             catch
             {

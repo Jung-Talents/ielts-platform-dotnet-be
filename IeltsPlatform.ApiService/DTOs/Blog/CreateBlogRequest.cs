@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using IeltsPlatform.ApiService.Entities;
+using Microsoft.AspNetCore.Mvc;
 
 namespace IeltsPlatform.ApiService.DTOs.Blog
 {
     public record CreateBlogRequest
     {
-        public required string BlogName { get; init; }
-        public required string BlogContent { get; init; }
-        public Entities.Blog.Status BlogStatus { get; init; }
-        public required Entities.Blog.Theme BlogTheme { get; init; }
+        public required string Name { get; init; }
+        public required string Content { get; init; }
+        public BlogStatus Status { get; init; }
+        public required BlogTheme Theme { get; init; }
     }
 }

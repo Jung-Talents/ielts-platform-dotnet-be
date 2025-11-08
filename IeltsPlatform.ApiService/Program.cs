@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 //SQL
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 // Add service defaults & Aspire client integrations.
@@ -25,13 +25,16 @@ builder.Services.AddScoped<IDynamoDBContext, DynamoDBContext>();
 // Add services to the container.
 builder.Services.AddProblemDetails();
 
-// Controllers
+// Add Controllers
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         // convert enums to strings in JSON
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     }); ;
+// Add DbContext
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -48,6 +51,7 @@ if (app.Environment.IsDevelopment())
 
 app.MapControllers();
 
+app.MapControllers();
 app.MapDefaultEndpoints();
 
 app.Run();
