@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
-namespace IeltsPlatform.ApiService.Properties.Data
+namespace IeltsPlatform.ApiService.Data
 {
     public class AppDbContext : DbContext
     {

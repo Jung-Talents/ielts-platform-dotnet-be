@@ -1,7 +1,7 @@
 using Amazon;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.Extensions.NETCore.Setup;
-using IeltsPlatform.ApiService.Properties.Data;
+using IeltsPlatform.ApiService.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 

@@ -1,6 +1,6 @@
 ﻿using IeltsPlatform.ApiService.DTOs.Blog;
 using IeltsPlatform.ApiService.Entities;
-using IeltsPlatform.ApiService.Properties.Data;
+using IeltsPlatform.ApiService.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +16,7 @@ namespace IeltsPlatform.ApiService.Controllers
             _context = context;
         }
         [HttpGet]
-        public async Task<ActionResult<ApiResult<List<Blog>>>> GetBlogs(CancellationToken cancellation)
+        public async Task<IActionResult> GetBlogs(CancellationToken cancellation)
         {
             try
             {
