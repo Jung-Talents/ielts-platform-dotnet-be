@@ -1,12 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using System.Net.Sockets;
+using IeltsPlatform.ApiService.Entities;
 
 namespace IeltsPlatform.ApiService.Data
 {
-    public class AppDbContext : DbContext
+    public class BlogDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        public BlogDbContext(DbContextOptions<BlogDbContext> options) : base(options)
         {
         }
 
@@ -15,7 +14,7 @@ namespace IeltsPlatform.ApiService.Data
             optionsBuilder.ConfigureWarnings(w => w.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning));
             base.OnConfiguring(optionsBuilder);
         }
-        // Sample DBSet for Blog entity 
+        
         public DbSet<Blog> Blogs { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -23,80 +22,78 @@ namespace IeltsPlatform.ApiService.Data
             base.OnModelCreating(modelBuilder);
 
             // Sample Seed data
-            // var now = new DateTime(2025, 11, 5, 0, 0, 0, DateTimeKind.Utc);
-            // modelBuilder.Entity<Blog>().HasData(
-            //     new Blog 
-            //     {
-            //         Id = new Guid("11111111-1111-1111-1111-111111111111"),
-            //         BlogName = "IELTS Reading Tips and Strategies",
-            //         BlogContent = @"Master IELTS Reading with these essential tips:
-            //             1. Time management is crucial
-            //             2. Skim and scan effectively
-            //             3. Practice different question types
-            //             4. Build your vocabulary
-            //             5. Read academic articles regularly",
-            //         Status = BlogStatus.Published,
-            //         Theme = BlogTheme.Reading,
-            //         CreatedAt = now,
-            //         UpdatedAt = now,
-            //         DeletedAt = DateTime.MinValue
-            //     },
-            //     new Blog
-            //     {
-            //         Id = Guid.NewGuid(),
-            //         BlogName = "How to Excel in IELTS Speaking Part 2",
-            //         BlogContent = @"Improve your IELTS Speaking Part 2 performance:
-            //             1. Structure your response (past, present, future)
-            //             2. Include personal experiences
-            //             3. Use advanced vocabulary
-            //             4. Practice time management (2 minutes)
-            //             5. Record yourself speaking",
-            //         Status = BlogStatus.Published,
-            //         Theme = BlogTheme.Speaking,
-            //         CreatedAt = now,
-            //         UpdatedAt = now,
-            //         DeletedAt = DateTime.MinValue
-            //     },
-            //     new Blog
-            //     {
-            //         Id = Guid.NewGuid(),
-            //         BlogName = "IELTS Writing Task 2: Essay Structure",
-            //         BlogContent = @"Perfect your IELTS Writing Task 2 structure:
-            //             1. Introduction
-            //                - Background statement
-            //                - Thesis statement
-            //             2. Body Paragraphs
-            //                - Topic sentences
-            //                - Supporting points
-            //                - Examples
-            //             3. Conclusion
-            //                - Restate main points
-            //                - Final thoughts",
-            //         Status = BlogStatus.Published,
-            //         Theme = BlogTheme.Writing,
-            //         CreatedAt = now,
-            //         UpdatedAt = now,
-            //         DeletedAt = DateTime.MinValue
-            //     },
-            //     new Blog
-            //     {
-            //         Id = Guid.NewGuid(),
-            //         BlogName = "IELTS Listening: Note-Taking Techniques",
-            //         BlogContent = @"Enhance your listening skills with these note-taking strategies:
-            //             1. Use abbreviations
-            //             2. Focus on keywords
-            //             3. Practice prediction
-            //             4. Listen for signpost words
-            //             5. Review and transfer answers carefully",
-            //         Status = BlogStatus.Published,
-            //         Theme = BlogTheme.Listening,
-            //         CreatedAt = now,
-            //         UpdatedAt = now,
-            //         DeletedAt = DateTime.MinValue
-            //     }
-            // );
+            var now = new DateTime(2025, 11, 5, 0, 0, 0, DateTimeKind.Utc);
+            modelBuilder.Entity<Blog>().HasData(
+                new Blog
+                {
+                    Id = new Guid("11111111-1111-1111-1111-111111111111"),
+                    BlogName = "IELTS Reading Tips and Strategies",
+                    BlogContent = @"Master IELTS Reading with these essential tips:
+                         1. Time management is crucial
+                         2. Skim and scan effectively
+                         3. Practice different question types
+                         4. Build your vocabulary
+                         5. Read academic articles regularly",
+                    Status = BlogStatus.Published,
+                    Theme = BlogTheme.Reading,
+                    CreatedAt = now,
+                    UpdatedAt = now,
+                    DeletedAt = null
+                },
+                new Blog
+                {
+                    Id = Guid.NewGuid(),
+                    BlogName = "How to Excel in IELTS Speaking Part 2",
+                    BlogContent = @"Improve your IELTS Speaking Part 2 performance:
+                         1. Structure your response (past, present, future)
+                         2. Include personal experiences
+                         3. Use advanced vocabulary
+                         4. Practice time management (2 minutes)
+                         5. Record yourself speaking",
+                    Status = BlogStatus.Published,
+                    Theme = BlogTheme.Speaking,
+                    CreatedAt = now,
+                    UpdatedAt = now,
+                    DeletedAt = null
+                },
+                new Blog
+                {
+                    Id = Guid.NewGuid(),
+                    BlogName = "IELTS Writing Task 2: Essay Structure",
+                    BlogContent = @"Perfect your IELTS Writing Task 2 structure:
+                         1. Introduction
+                            - Background statement
+                            - Thesis statement
+                         2. Body Paragraphs
+                            - Topic sentences
+                            - Supporting points
+                            - Examples
+                         3. Conclusion
+                            - Restate main points
+                            - Final thoughts",
+                    Status = BlogStatus.Published,
+                    Theme = BlogTheme.Writing,
+                    CreatedAt = now,
+                    UpdatedAt = now,
+                    DeletedAt = null
+                },
+                new Blog
+                {
+                    Id = Guid.NewGuid(),
+                    BlogName = "IELTS Listening: Note-Taking Techniques",
+                    BlogContent = @"Enhance your listening skills with these note-taking strategies:
+                         1. Use abbreviations
+                         2. Focus on keywords
+                         3. Practice prediction
+                         4. Listen for signpost words
+                         5. Review and transfer answers carefully",
+                    Status = BlogStatus.Published,
+                    Theme = BlogTheme.Listening,
+                    CreatedAt = now,
+                    UpdatedAt = now,
+                    DeletedAt = null
+                }
+            );
         }
-
-        
     }
 }

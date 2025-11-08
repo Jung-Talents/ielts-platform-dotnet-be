@@ -1,6 +1,7 @@
 using Amazon;
 using Amazon.Extensions.NETCore.Setup;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using IeltsPlatform.ApiService.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,15 +18,24 @@ builder.Services.AddAWSService<Amazon.DynamoDBv2.IAmazonDynamoDB>();
 // Add services to the container.
 builder.Services.AddProblemDetails();
 
-// Add DbContext
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
 // Add controllers
 builder.Services.AddControllers();
 
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+// Configure Swagger/OpenAPI
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo 
+    { 
+        Title = "IELTS Platform API", 
+        Version = "v1",
+        Description = "API for managing IELTS Platform content"
+    });
+});
+
+// Add Entity Framework and PostgreSQL
+builder.Services.AddDbContext<BlogDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
@@ -34,31 +44,14 @@ app.UseExceptionHandler();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "IELTS Platform API V1");
+    });
 }
-
-string[] summaries = ["Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"];
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
 
 app.MapControllers();
 app.MapDefaultEndpoints();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
