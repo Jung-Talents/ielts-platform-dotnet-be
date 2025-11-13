@@ -15,25 +15,18 @@ namespace IeltsPlatform.ApiService.Controllers
         {
             _context = context;
         }
-        [HttpGet]
-        public async Task<IActionResult> GetBlogs(CancellationToken cancellation)
-        {
-            try
-            {
-                var blogs = await _context.Blogs.ToListAsync(cancellation);
-                return Ok(blogs);
-            }
-            catch
-            {
-                return StatusCode(500, "An error occurred while retrieving blogs.");
-            }
-        }
 
         [HttpPost]
         public async Task<IActionResult> CreateBlog([FromBody] CreateBlogRequest request, CancellationToken cancellation)
         {
+            // no same title
             try
             {
+                var existTitle = await _context.Blogs.AnyAsync(blog => blog.Name == request.Name, cancellation);
+                if (existTitle)
+                {
+                    return Conflict(new {Message = "A blog with the same title already exists." });
+                }
                 var createdBlog = BlogMapper.CreateCategoryFromDto(request);
                 _context.Blogs.Add(createdBlog);
                 await _context.SaveChangesAsync(cancellation);
