@@ -9,9 +9,22 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
       - AWS_REGION=us-east-1
-      # For local development, you can use LocalStack or configure AWS credentials
-      # - AWS_ACCESS_KEY_ID=your_access_key
-      # - AWS_SECRET_ACCESS_KEY=your_secret_key
+      - ConnectionStrings__DefaultConnection=Host=db;Database=ieltsplatform;Username=postgres;Password=your_password
+    networks:
+      - ielts-network
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=your_password
+      - POSTGRES_DB=ieltsplatform
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - ielts-network
     healthcheck:
@@ -39,5 +52,5 @@ networks:
   ielts-network:
     driver: bridge
 
-# volumes:
-#   localstack-data:
+volumes:
+  postgres_data:
