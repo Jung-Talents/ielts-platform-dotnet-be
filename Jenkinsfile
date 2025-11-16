@@ -1,3 +1,10 @@
+// DEPRECATED: This Jenkinsfile is no longer used.
+// The project has migrated to GitHub Actions for CI/CD.
+// See .github/workflows/ for the new workflows.
+// For migration instructions, see MIGRATION_GUIDE.md
+//
+// This file is kept for reference purposes and will be removed in a future release.
+
 pipeline {
     agent any
     
