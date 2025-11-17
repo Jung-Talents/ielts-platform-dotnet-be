@@ -1,6 +1,6 @@
-﻿using IeltsPlatform.ApiService.Entities;
+using IeltsPlatform.ApiService.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
+using IeltsPlatform.ApiService.Data.Seed;
 
 namespace IeltsPlatform.ApiService.Data
 {
@@ -15,13 +15,12 @@ namespace IeltsPlatform.ApiService.Data
             optionsBuilder.ConfigureWarnings(w => w.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning));
             base.OnConfiguring(optionsBuilder);
         }
-
-        public DbSet<Blog> Blogs => Set<Blog>();
+        public DbSet<Blog> Blogs { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            BlogSeed.Seed(modelBuilder);
         }
     }
 }
