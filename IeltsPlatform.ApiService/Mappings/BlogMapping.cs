@@ -15,7 +15,7 @@ namespace IeltsPlatform.ApiService.Mappings
                 Status = entity.Status,
                 Theme = entity.Theme,
                 CreatedAt = entity.CreatedAt,
-                UpdatedAt = entity.UpdatedAt,
+                UpdatedAt = entity.UpdatedAt
             };
         }
 
