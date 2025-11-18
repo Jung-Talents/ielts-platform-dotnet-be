@@ -1,4 +1,4 @@
-﻿using IeltsPlatform.ApiService.Entities;
+using IeltsPlatform.ApiService.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 

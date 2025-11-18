@@ -1,4 +1,4 @@
-﻿namespace IeltsPlatform.ApiService.Entities
+namespace IeltsPlatform.ApiService.Enums
 {
     public enum BlogStatus
     {

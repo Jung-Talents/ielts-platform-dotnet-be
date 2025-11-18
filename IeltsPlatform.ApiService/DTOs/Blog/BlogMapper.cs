@@ -7,7 +7,9 @@
             return Entities.Blog.Create(dto.Name,
                 dto.Content,
                 dto.Status,
-                dto.Theme
+                dto.Theme,
+                createdAt: DateTimeOffset.UtcNow,
+                updatedAt: DateTimeOffset.UtcNow
             );
         }
     }
