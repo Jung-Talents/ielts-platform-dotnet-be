@@ -1,5 +1,4 @@
-﻿using IeltsPlatform.ApiService.Entities;
-using Microsoft.AspNetCore.Mvc;
+﻿using IeltsPlatform.ApiService.Enums;
 
 namespace IeltsPlatform.ApiService.DTOs.Blog
 {
