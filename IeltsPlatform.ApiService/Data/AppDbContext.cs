@@ -1,6 +1,6 @@
+using IeltsPlatform.ApiService.Data.Configurations;
 using IeltsPlatform.ApiService.Entities;
 using Microsoft.EntityFrameworkCore;
-using IeltsPlatform.ApiService.Data.Seed;
 
 namespace IeltsPlatform.ApiService.Data
 {
@@ -20,6 +20,7 @@ namespace IeltsPlatform.ApiService.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfiguration(new BlogConfiguration());
         }
     }
 }
