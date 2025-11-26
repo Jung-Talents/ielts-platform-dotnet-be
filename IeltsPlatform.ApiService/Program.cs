@@ -1,5 +1,11 @@
 using Amazon;
+using Amazon.DynamoDBv2.DataModel;
 using Amazon.Extensions.NETCore.Setup;
+using IeltsPlatform.ApiService.Data;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
+using IeltsPlatform.ApiService.Services.Interfaces;
+using IeltsPlatform.ApiService.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,12 +17,28 @@ var awsOptions = builder.Configuration.GetAWSOptions();
 builder.Services.AddDefaultAWSOptions(awsOptions);
 builder.Services.AddAWSService<Amazon.S3.IAmazonS3>();
 builder.Services.AddAWSService<Amazon.DynamoDBv2.IAmazonDynamoDB>();
+builder.Services.AddScoped<IDynamoDBContext, DynamoDBContext>();
 
 // Add services to the container.
 builder.Services.AddProblemDetails();
 
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+// Add Controllers
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        // convert enums to strings in JSON
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
+// Add DbContext
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Add Swagger/OpenAPI
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// Add services
+builder.Services.AddScoped<IBlogService, BlogService>();
 
 var app = builder.Build();
 
@@ -25,30 +47,11 @@ app.UseExceptionHandler();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
-string[] summaries = ["Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"];
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
-
+app.MapControllers();
 app.MapDefaultEndpoints();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
