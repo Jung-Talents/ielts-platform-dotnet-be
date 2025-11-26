@@ -36,6 +36,20 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
+// 🔥 Migration logic - chạy khi có environment variable
+if (args.Contains("--migrate"))
+{
+    using var scope = app.Services.CreateScope();
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    
+    Console.WriteLine("🔄 Running migrations...");
+    await dbContext.Database.MigrateAsync();
+    Console.WriteLine("✅ Migrations completed!");
+    
+    return; // Exit without starting web server
+}
+
+
 // Configure the HTTP request pipeline.
 app.UseExceptionHandler();
 

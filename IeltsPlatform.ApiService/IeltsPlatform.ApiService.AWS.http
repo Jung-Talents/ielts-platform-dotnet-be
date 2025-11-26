@@ -1,0 +1,24 @@
+### AWS Production Environment
+@AWS_LoadBalancer = http://ielts-platform-dev-alb-415214730.us-east-1.elb.amazonaws.com
+
+### Create Blog (POST)
+POST {{AWS_LoadBalancer}}/api/blogs
+Content-Type: application/json
+
+{
+  "Name": "AWS Test Blog Post",
+  "Content": "This is a test blog post created on AWS infrastructure.",
+  "Status": "Draft",
+  "Theme": "Listening"
+}
+
+###
+### Get All Blogs (GET)
+GET {{AWS_LoadBalancer}}/api/blogs
+Accept: application/json
+
+###
+### Health Check
+GET {{AWS_LoadBalancer}}/health
+Accept: application/json
+
