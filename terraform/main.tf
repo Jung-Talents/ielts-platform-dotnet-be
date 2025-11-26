@@ -7,25 +7,15 @@ terraform {
       version = "~> 5.0"
     }
   }
-
-  backend "s3" {
-    # Backend configuration should be provided via backend config file or CLI
-    # bucket         = "your-terraform-state-bucket"
-    # key            = "ielts-platform/terraform.tfstate"
-    # region         = "us-east-1"
-    # encrypt        = true
-    # dynamodb_table = "terraform-state-lock"
-  }
 }
 
 provider "aws" {
-  region = var.aws_region
-
-  default_tags {
-    tags = {
-      Project     = "IELTSPlatform"
-      Environment = var.environment
-      ManagedBy   = "Terraform"
-    }
-  }
+  region = "us-east-1"
+  # profile = var.aws_profile
+  
+  # Alternative: Use environment variables (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+  # Or for direct credentials (not recommended):
+  # access_key = var.AWS_ACCESS_KEY_ID
+  # secret_key = var.AWS_SECRET_ACCESS_KEY
 }
+

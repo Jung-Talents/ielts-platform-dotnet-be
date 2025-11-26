@@ -7,10 +7,10 @@ Accept: application/json
 POST {{ApiService_HostAddress}}/api/blogs/
 Content-Type: application/json
 {
-  "blog_name": "My First Blog Post",
-  "blog_content": "This is the content of my first blog post.",
-  "blog_status": "Draft",
-  "blog_theme": "Listening"
+  "Name": "My First Blog Post",
+  "Content": "This is the content of my first blog post.",
+  "Status": "Draft",
+  "Theme": "Listening"
 }
 
 ###
