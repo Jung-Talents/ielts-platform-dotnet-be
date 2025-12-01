@@ -4,6 +4,8 @@ using Amazon.Extensions.NETCore.Setup;
 using IeltsPlatform.ApiService.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using IeltsPlatform.ApiService.Services.Interfaces;
+using IeltsPlatform.ApiService.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,13 +28,17 @@ builder.Services.AddControllers()
     {
         // convert enums to strings in JSON
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-    }); ;
+    });
 // Add DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+// Add Swagger/OpenAPI
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// Add services
+builder.Services.AddScoped<IBlogService, BlogService>();
 
 var app = builder.Build();
 
@@ -55,7 +61,8 @@ app.UseExceptionHandler();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.MapControllers();
