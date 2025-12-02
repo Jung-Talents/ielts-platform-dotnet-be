@@ -1,0 +1,39 @@
+name: Build Check
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+  workflow_dispatch: # Cho phép chạy thủ công
+
+env:
+  DOTNET_VERSION: '9.0'
+
+jobs:
+  build:
+    name: Build Application
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore dependencies
+        run: dotnet restore IeltsPlatform.sln
+
+      - name: Build solution
+        run: dotnet build IeltsPlatform.sln -c Release --no-restore
+
+      - name: Build status
+        run: echo "✅ Build completed successfully!"
+
