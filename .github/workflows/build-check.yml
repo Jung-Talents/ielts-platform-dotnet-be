@@ -21,7 +21,8 @@ jobs:
     
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4  #provided by github
+        
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -36,4 +37,48 @@ jobs:
 
       - name: Build status
         run: echo "✅ Build completed successfully!"
+
+  deploy:
+    name: Build and Push to ECR
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      id-token: write # Required to authenticate with AWS
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-southeast-2 
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0' 
+    - name: Define ECR repository and image tag
+      id: ecr-meta
+      run: |
+        ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
+        PROJECT_NAME="ielts-platform"
+        ENVIRONMENT="dev"
+        SERVICE_NAME="api"
+        IMAGE_TAG=${{ github.sha }}
+        echo "ECR_REPOSITORY=${PROJECT_NAME}-${ENVIRONMENT}-${SERVICE_NAME}" >> $GITHUB_ENV
+        echo "IMAGE_TAG=${IMAGE_TAG}" >> $GITHUB_ENV
+        
+    # - name: Build, tag, and push image to Amazon ECR
+    #   env:
+    #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+    #   run: |
+    #     docker build -t $ECR_REGISTRY/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }} .
+    #     docker push $ECR_REGISTRY/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
 

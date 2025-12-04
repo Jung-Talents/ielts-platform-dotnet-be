@@ -1,5 +1,5 @@
 ### AWS Production Environment
-@AWS_LoadBalancer = http://ielts-platform-dev-alb-415214730.us-east-1.elb.amazonaws.com
+@AWS_LoadBalancer = http://ielts-platform-dev-alb-415214730.ap-southeast-2.elb.amazonaws.com
 
 ### Create Blog (POST)
 POST {{AWS_LoadBalancer}}/api/blogs

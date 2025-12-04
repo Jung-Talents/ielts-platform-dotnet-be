@@ -1,8 +1,0 @@
-{
-    "containerOverrides": [
-      {
-        "name": "api",
-        "command": ["dotnet", "IeltsPlatform.ApiService.dll", "--migrate"]
-      }
-    ]
-}
