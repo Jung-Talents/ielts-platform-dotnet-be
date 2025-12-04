@@ -75,7 +75,7 @@ docker build -f IeltsPlatform.ApiService/Dockerfile -t ielts-platform-api:latest
 ```bash
 docker run -p 8080:8080 \
   -e ASPNETCORE_ENVIRONMENT=Development \
-  -e AWS_REGION=us-east-1 \
+  -e AWS_REGION=ap-southeast-2 \
   ielts-platform-api:latest
 ```
 
@@ -84,7 +84,7 @@ docker run -p 8080:8080 \
 ### Setup Terraform Backend (One-time)
 ```bash
 # Create S3 bucket for state
-aws s3 mb s3://your-terraform-state-bucket --region us-east-1
+aws s3 mb s3://your-terraform-state-bucket --region ap-southeast-2
 
 # Create DynamoDB table for state locking
 aws dynamodb create-table \
@@ -92,7 +92,7 @@ aws dynamodb create-table \
   --attribute-definitions AttributeName=LockID,AttributeType=S \
   --key-schema AttributeName=LockID,KeyType=HASH \
   --billing-mode PAY_PER_REQUEST \
-  --region us-east-1
+  --region ap-southeast-2
 ```
 
 ### Deploy Infrastructure
@@ -103,7 +103,7 @@ cd terraform
 terraform init \
   -backend-config="bucket=your-terraform-state-bucket" \
   -backend-config="key=ielts-platform/terraform.tfstate" \
-  -backend-config="region=us-east-1"
+  -backend-config="region=ap-southeast-2"
 
 # Plan changes
 terraform plan -var="environment=dev" -out=tfplan
@@ -121,15 +121,15 @@ terraform output ecr_repository_url
 ### Push Image to ECR
 ```bash
 # Login to ECR
-aws ecr get-login-password --region us-east-1 | \
-  docker login --username AWS --password-stdin <account-id>.dkr.ecr.us-east-1.amazonaws.com
+aws ecr get-login-password --region ap-southeast-2 | \
+  docker login --username AWS --password-stdin <account-id>.dkr.ecr.ap-southeast-2.amazonaws.com
 
 # Tag image
 docker tag ielts-platform-api:latest \
-  <account-id>.dkr.ecr.us-east-1.amazonaws.com/ielts-platform-dev-api:latest
+  <account-id>.dkr.ecr.ap-southeast-2.amazonaws.com/ielts-platform-dev-api:latest
 
 # Push image
-docker push <account-id>.dkr.ecr.us-east-1.amazonaws.com/ielts-platform-dev-api:latest
+docker push <account-id>.dkr.ecr.ap-southeast-2.amazonaws.com/ielts-platform-dev-api:latest
 ```
 
 ### Update ECS Service
@@ -138,7 +138,7 @@ aws ecs update-service \
   --cluster ielts-platform-dev-cluster \
   --service ielts-platform-dev-api \
   --force-new-deployment \
-  --region us-east-1
+  --region ap-southeast-2
 ```
 
 ## Common Tasks
@@ -161,7 +161,7 @@ dotnet add package PackageName --version x.y.z
 aws ecs describe-services \
   --cluster ielts-platform-dev-cluster \
   --services ielts-platform-dev-api \
-  --region us-east-1
+  --region ap-southeast-2
 
 # View logs
 aws logs tail /ecs/ielts-platform-dev-api --follow
@@ -177,7 +177,7 @@ terraform destroy -var="environment=dev"
 
 ### For Local Development
 ```bash
-export AWS_REGION=us-east-1
+export AWS_REGION=ap-southeast-2
 export ASPNETCORE_ENVIRONMENT=Development
 ```
 
@@ -238,7 +238,7 @@ Push to the repository or manually trigger via Jenkins UI with:
 ### View Application Logs
 ```bash
 # AWS CloudWatch
-aws logs tail /ecs/ielts-platform-dev-api --follow --region us-east-1
+aws logs tail /ecs/ielts-platform-dev-api --follow --region ap-southeast-2
 ```
 
 ### Check Container Health
@@ -247,7 +247,7 @@ aws logs tail /ecs/ielts-platform-dev-api --follow --region us-east-1
 aws ecs describe-tasks \
   --cluster ielts-platform-dev-cluster \
   --tasks $(aws ecs list-tasks --cluster ielts-platform-dev-cluster --service ielts-platform-dev-api --query 'taskArns[0]' --output text) \
-  --region us-east-1
+  --region ap-southeast-2
 ```
 
 ## Additional Resources

@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     environment {
-        AWS_REGION = 'us-east-1'
+        AWS_REGION = 'ap-southeast-2'
         AWS_ACCOUNT_ID = credentials('aws-account-id')
         ECR_REPOSITORY = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/ielts-platform-dev-api"
         DOTNET_VERSION = '9.0'

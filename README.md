@@ -104,12 +104,12 @@ terraform init
 
 3. Review the planned changes:
 ```bash
-terraform plan -var="aws_region=us-east-1" -var="environment=dev"
+terraform plan -var="aws_region=ap-southeast-2" -var="environment=dev"
 ```
 
 4. Apply the infrastructure:
 ```bash
-terraform apply -var="aws_region=us-east-1" -var="environment=dev"
+terraform apply -var="aws_region=ap-southeast-2" -var="environment=dev"
 ```
 
 ### Infrastructure Components
@@ -128,18 +128,18 @@ The Terraform configuration creates:
 
 1. Build and tag the Docker image:
 ```bash
-aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <account-id>.dkr.ecr.us-east-1.amazonaws.com
-docker build -f IeltsPlatform.ApiService/Dockerfile -t <account-id>.dkr.ecr.us-east-1.amazonaws.com/ielts-platform-dev-api:latest .
+aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin <account-id>.dkr.ecr.ap-southeast-2.amazonaws.com
+docker build -f IeltsPlatform.ApiService/Dockerfile -t <account-id>.dkr.ecr.ap-southeast-2.amazonaws.com/ielts-platform-dev-api:latest .
 ```
 
 2. Push to ECR:
 ```bash
-docker push <account-id>.dkr.ecr.us-east-1.amazonaws.com/ielts-platform-dev-api:latest
+docker push <account-id>.dkr.ecr.ap-southeast-2.amazonaws.com/ielts-platform-dev-api:latest
 ```
 
 3. Update ECS service:
 ```bash
-aws ecs update-service --cluster ielts-platform-dev-cluster --service ielts-platform-dev-api --force-new-deployment --region us-east-1
+aws ecs update-service --cluster ielts-platform-dev-cluster --service ielts-platform-dev-api --force-new-deployment --region ap-southeast-2
 ```
 
 ## 🔄 CI/CD with Jenkins
@@ -275,7 +275,7 @@ For issues and questions:
 To destroy all AWS resources:
 ```bash
 cd terraform
-terraform destroy -var="aws_region=us-east-1" -var="environment=dev"
+terraform destroy -var="aws_region=ap-southeast-2" -var="environment=dev"
 ```
 
 **Note**: This will delete all resources including data in DynamoDB and S3. Use with caution!
