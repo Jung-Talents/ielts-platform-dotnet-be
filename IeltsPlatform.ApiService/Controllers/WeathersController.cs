@@ -9,7 +9,7 @@ namespace IeltsPlatform.ApiService.Controllers
         [HttpGet]
         public IActionResult GetWeather()
         {
-            return Ok("Đây là một Controller mẫu để test. Thời tiết hôm nay: Nắng đẹp, nhiệt độ 25°C!");
+            return Ok("Hello. Today is a sunny day!");
         }
 
         [HttpGet("test")]
