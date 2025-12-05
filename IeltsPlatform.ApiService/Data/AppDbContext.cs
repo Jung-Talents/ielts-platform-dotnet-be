@@ -17,6 +17,9 @@ namespace IeltsPlatform.ApiService.Data
         }
 
         public DbSet<Blog> Blogs => Set<Blog>();
+        public DbSet<User> Users => Set<User>();
+        public DbSet<IeltsTest> IeltsTests => Set<IeltsTest>();
+        public DbSet<Section> Sections => Set<Section>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
