@@ -5,7 +5,7 @@
         public static Entities.IeltsTest CreateIeltsTestFromDto(CreateIeltsTestRequest dto)
         {
             return Entities.IeltsTest.Create(
-                dto.Name,
+                dto.TestName,
                 dto.Duration,
                 dto.Status
             );

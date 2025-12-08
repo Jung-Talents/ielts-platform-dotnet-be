@@ -1,5 +1,5 @@
 using IeltsPlatform.ApiService.Entities;
-using IeltsPlatform.ApiService.Enums.IeltsTest;
+using IeltsPlatform.ApiService.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Threading.Tasks;
@@ -15,7 +15,7 @@ namespace IeltsPlatform.ApiService.Data.Configurations
             builder.Property(t => t.Id)
                         .HasColumnName("id");
 
-            builder.Property(t => t.Name)
+            builder.Property(t => t.TestName)
                         .HasColumnName("test_name")
                         .HasMaxLength(200)
                         .IsRequired();
@@ -38,19 +38,6 @@ namespace IeltsPlatform.ApiService.Data.Configurations
 
             builder.Property(t => t.DeletedAt)
                         .HasColumnName("deleted_at");
-
-            // Seed data
-            var seedTest = IeltsTest.Create(
-                "IELTS Academic Listening Practice Test 1",
-                40,
-                IeltsTestStatus.Published
-            );
-
-            seedTest.Id = Guid.Parse("11111111-1111-1111-1111-111111111111");
-            seedTest.CreatedAt = new DateTimeOffset(2024, 1, 1, 0, 0, 0, TimeSpan.Zero);
-            seedTest.UpdatedAt = new DateTimeOffset(2024, 1, 1, 0, 0, 0, TimeSpan.Zero);
-
-            builder.HasData(seedTest);
         }
     }
 }

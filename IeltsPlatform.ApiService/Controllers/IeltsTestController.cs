@@ -22,7 +22,12 @@ namespace IeltsPlatform.ApiService.Controllers
             try
             {
                 var createdTest = await _testService.CreateAsync(request, cancellation);
-                return Ok(createdTest);
+                // Implement CreatedAtAction(nameof(GetTestById)... after adding GetTestById method
+                return StatusCode(201, new
+                {
+                    Message = "IELTS Test created successfully!",
+                    Data = createdTest
+                });
             }
             catch (Exception ex)
             {

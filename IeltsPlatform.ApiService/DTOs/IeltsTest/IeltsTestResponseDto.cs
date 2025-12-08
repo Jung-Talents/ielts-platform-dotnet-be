@@ -1,11 +1,11 @@
-﻿using IeltsPlatform.ApiService.Enums.IeltsTest;
+﻿using IeltsPlatform.ApiService.Enums;
 
 namespace IeltsPlatform.ApiService.DTOs.Test
 {
     public record IeltsTestResponseDto
     {
         public Guid Id { get; set; }
-        public required string Name { get; set; }
+        public required string TestName { get; set; }
         public required IeltsTestStatus Status { get; set; }
         public required int Duration { get; set; }
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.Now;

@@ -9,26 +9,27 @@ namespace IeltsPlatform.ApiService.Entities
         private IeltsTest(
             string testName,
             int duration,
-            IeltsTestStatus status,
-            DateTimeOffset createdAt,
-            DateTimeOffset? updatedAt)
+            IeltsTestStatus status
+            )
         {
             Id = Guid.NewGuid();
             TestName = testName;
             Duration = duration;
             Status = status;
-            CreatedAt = createdAt;
-            UpdatedAt = updatedAt;
         }
 
         public static IeltsTest Create(
             string testName,
             int duration,
-            IeltsTestStatus status,
-            DateTimeOffset createdAt,
-            DateTimeOffset? updatedAt)
+            IeltsTestStatus status
+            )
         {
-            return new IeltsTest(testName, duration, status, createdAt, updatedAt);
+            var now = DateTimeOffset.UtcNow;
+            return new IeltsTest(testName, duration, status)
+            {
+                CreatedAt = now,
+                UpdatedAt = now
+            };
         }
 
         public Guid Id { get; set; }

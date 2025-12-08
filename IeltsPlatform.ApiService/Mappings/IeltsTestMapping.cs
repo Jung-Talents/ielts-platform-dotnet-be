@@ -10,7 +10,7 @@ namespace IeltsPlatform.ApiService.Mappings
             return new IeltsTestResponseDto
             {
                 Id = entity.Id,
-                Name = entity.Name,
+                TestName = entity.TestName,
                 Status = entity.Status,
                 Duration = entity.Duration,
                 CreatedAt = entity.CreatedAt,
