@@ -1,6 +1,7 @@
 ﻿using IeltsPlatform.ApiService.DTOs.IeltsTest;
 using IeltsPlatform.ApiService.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace IeltsPlatform.ApiService.Controllers
 {
@@ -12,34 +13,25 @@ namespace IeltsPlatform.ApiService.Controllers
         public IeltsTestController(IIeltsTestService testService)
         {
             _testService = testService;
-            // _context = context;
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateTest([FromBody] CreateIeltsTestRequest request, CancellationToken cancellation)
         {
-            try
+            var createdTest = await _testService.CreateAsync(request, cancellation);
+            return CreatedAtAction(nameof(GetTestById), new { id = createdTest.Id }, new
             {
-                var createdTest = await _testService.CreateAsync(request, cancellation);
-                // Implement CreatedAtAction(nameof(GetTestById)... after adding GetTestById method
-                return StatusCode(201, new
-                {
-                    Message = "IELTS Test created successfully!",
-                    Data = createdTest
-                });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { Message = "An error occurred while creating the test.", Error = ex.Message });
-            }
+                Message = $"{createdTest.TestName} created successfully!",
+                Data = createdTest
+            });
         }
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<IeltsTestResponseDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllTests(CancellationToken cancellation)
         {
-            var tests = await _testService.GetAllAsync(cancellation);
-            return Ok(tests);
+            var test = await _testService.GetAllAsync(cancellation);
+            return Ok(test);
         }
 
         [HttpGet("{id}")]
