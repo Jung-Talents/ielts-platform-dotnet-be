@@ -7,5 +7,7 @@ namespace IeltsPlatform.ApiService.Services.Interfaces
     {
         Task<IeltsTestResponseDto> CreateAsync(CreateIeltsTestRequest request, CancellationToken cancellation);
         Task<IEnumerable<IeltsTestResponseDto>> GetAllAsync(CancellationToken cancellationToken);
+        Task<IeltsTestResponseDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+        Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken);
     }
 }

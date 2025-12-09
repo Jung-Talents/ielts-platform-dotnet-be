@@ -42,5 +42,24 @@ namespace IeltsPlatform.ApiService.Controllers
             var tests = await _testService.GetAllAsync(cancellation);
             return Ok(tests);
         }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(IeltsTestResponseDto), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetTestById(Guid id, CancellationToken cancellation)
+        {
+            // Implement this method in IIeltsTestService and IeltsTestService
+            var test = await _testService.GetByIdAsync(id, cancellation);
+            return test == null ? NotFound() : Ok(test);
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> DeleteTest(Guid id, CancellationToken cancellation)
+        {
+            var success = await _testService.DeleteAsync(id, cancellation);
+            if (!success)
+                return NotFound();
+            return Ok(new { Message = "IELTS Test deleted successfully!" });
+        }
     }
 }

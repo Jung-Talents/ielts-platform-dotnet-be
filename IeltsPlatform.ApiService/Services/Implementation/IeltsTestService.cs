@@ -15,6 +15,7 @@ namespace IeltsPlatform.ApiService.Services.Implementation
         {
             _context = context;
         }
+
         public async Task<IeltsTestResponseDto> CreateAsync(CreateIeltsTestRequest request, CancellationToken cancellationToken)
         {
             var test = IeltsTestMapper.CreateIeltsTestFromDto(request);
@@ -22,10 +23,27 @@ namespace IeltsPlatform.ApiService.Services.Implementation
             await _context.SaveChangesAsync(cancellationToken);
             return test.ToResponseDto();
         }
+
         public async Task<IEnumerable<IeltsTestResponseDto>> GetAllAsync(CancellationToken cancellationToken)
         {
             var test = await _context.IeltsTests.ToListAsync(cancellationToken);
             return test.Select(b => b.ToResponseDto()).ToList();
+        }
+
+        public async Task<IeltsTestResponseDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var test = await _context.IeltsTests.FindAsync(id, cancellationToken);
+            return test == null ? null : test.ToResponseDto();
+        }
+
+        public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var test = await _context.IeltsTests.FindAsync(id, cancellationToken);
+            if (test == null)
+                return false;
+            _context.IeltsTests.Remove(test);
+            await _context.SaveChangesAsync(cancellationToken);
+            return true;
         }
     }
 }

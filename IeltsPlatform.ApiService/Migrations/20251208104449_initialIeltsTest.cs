@@ -29,22 +29,22 @@ namespace IeltsPlatform.ApiService.Migrations
                     table.PrimaryKey("PK_Blogs", x => x.id);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "IeltsTests",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    test_name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    duration = table.Column<int>(type: "integer", nullable: false),
-                    status = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    updated_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    created_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    deleted_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_IeltsTests", x => x.id);
-                });
+            //migrationBuilder.CreateTable(
+            //    name: "IeltsTests",
+            //    columns: table => new
+            //    {
+            //        id = table.Column<Guid>(type: "uuid", nullable: false),
+            //        test_name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+            //        duration = table.Column<int>(type: "integer", nullable: false),
+            //        status = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+            //        updated_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+            //        created_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+            //        deleted_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
+            //    },
+            //    constraints: table =>
+            //    {
+            //        table.PrimaryKey("PK_IeltsTests", x => x.id);
+            //    });
 
             migrationBuilder.InsertData(
                 table: "IeltsTests",
@@ -58,8 +58,8 @@ namespace IeltsPlatform.ApiService.Migrations
             migrationBuilder.DropTable(
                 name: "Blogs");
 
-            migrationBuilder.DropTable(
-                name: "IeltsTests");
+            //migrationBuilder.DropTable(
+            //    name: "IeltsTests");
         }
     }
 }
