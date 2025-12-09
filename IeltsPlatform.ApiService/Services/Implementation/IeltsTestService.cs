@@ -1,6 +1,5 @@
 ﻿using IeltsPlatform.ApiService.Data;
 using IeltsPlatform.ApiService.DTOs.IeltsTest;
-using IeltsPlatform.ApiService.DTOs.Test;
 using IeltsPlatform.ApiService.Mappings;
 using IeltsPlatform.ApiService.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -44,6 +43,16 @@ namespace IeltsPlatform.ApiService.Services.Implementation
             _context.IeltsTests.Remove(test);
             await _context.SaveChangesAsync(cancellationToken);
             return true;
+        }
+
+        public async Task<IeltsTestResponseDto?> UpdateAsync (Guid id, IeltsTestUpdateDto dto, CancellationToken cancellationToken)
+        {
+            var test = await _context.IeltsTests.FindAsync(id, cancellationToken);
+            if (test == null)
+                return null;
+            test.ApplyUpdate(dto);
+            await _context.SaveChangesAsync(cancellationToken);
+            return test.ToResponseDto();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using IeltsPlatform.ApiService.Enums;
 
-namespace IeltsPlatform.ApiService.DTOs.Test
+namespace IeltsPlatform.ApiService.DTOs.IeltsTest
 {
     public record IeltsTestResponseDto
     {

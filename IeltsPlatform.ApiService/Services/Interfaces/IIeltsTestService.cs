@@ -1,5 +1,4 @@
 ﻿using IeltsPlatform.ApiService.DTOs.IeltsTest;
-using IeltsPlatform.ApiService.DTOs.Test;
 
 namespace IeltsPlatform.ApiService.Services.Interfaces
 {
@@ -9,5 +8,6 @@ namespace IeltsPlatform.ApiService.Services.Interfaces
         Task<IEnumerable<IeltsTestResponseDto>> GetAllAsync(CancellationToken cancellationToken);
         Task<IeltsTestResponseDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
         Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken);
+        Task<IeltsTestResponseDto?> UpdateAsync(Guid id, IeltsTestUpdateDto dto, CancellationToken cancellationToken);
     }
 }

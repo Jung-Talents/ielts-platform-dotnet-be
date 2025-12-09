@@ -1,5 +1,4 @@
 ﻿using IeltsPlatform.ApiService.DTOs.IeltsTest;
-using IeltsPlatform.ApiService.DTOs.Test;
 using IeltsPlatform.ApiService.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -60,6 +59,16 @@ namespace IeltsPlatform.ApiService.Controllers
             if (!success)
                 return NotFound();
             return Ok(new { Message = "IELTS Test deleted successfully!" });
+        }
+
+        [HttpPut("{id}")]
+        [ProducesResponseType(typeof(IeltsTestResponseDto), StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdateTest(Guid id, [FromBody] IeltsTestUpdateDto dto, CancellationToken cancellation)
+        {
+            var updated = await _testService.UpdateAsync(id, dto, cancellation);
+            if (updated == null)
+                return NotFound();
+            return Ok(updated);
         }
     }
 }
