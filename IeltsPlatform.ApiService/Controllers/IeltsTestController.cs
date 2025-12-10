@@ -38,7 +38,6 @@ namespace IeltsPlatform.ApiService.Controllers
         [ProducesResponseType(typeof(IeltsTestResponseDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetTestById(Guid id, CancellationToken cancellation)
         {
-            // Implement this method in IIeltsTestService and IeltsTestService
             var test = await _testService.GetByIdAsync(id, cancellation);
             return test == null ? NotFound() : Ok(test);
         }

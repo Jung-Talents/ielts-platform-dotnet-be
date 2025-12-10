@@ -5,6 +5,15 @@ namespace IeltsPlatform.ApiService.Mappings
 {
     public static class IeltsTestMapping
     {
+        public static IeltsTest ToEntity(this CreateIeltsTestRequest dto)
+        {
+            return IeltsTest.Create(
+                dto.TestName,
+                dto.Duration,
+                dto.Status
+            );
+        }
+
         public static IeltsTestResponseDto ToResponseDto(this IeltsTest entity)
         {
             return new IeltsTestResponseDto

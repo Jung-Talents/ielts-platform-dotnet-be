@@ -17,7 +17,7 @@ namespace IeltsPlatform.ApiService.Services.Implementation
 
         public async Task<IeltsTestResponseDto> CreateAsync(CreateIeltsTestRequest request, CancellationToken cancellationToken)
         {
-            var test = IeltsTestMapper.CreateIeltsTestFromDto(request);
+            var test = request.ToEntity();
             _context.IeltsTests.Add(test);
             await _context.SaveChangesAsync(cancellationToken);
             return test.ToResponseDto();
