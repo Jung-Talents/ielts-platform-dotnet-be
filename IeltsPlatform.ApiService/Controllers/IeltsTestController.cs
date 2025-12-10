@@ -5,7 +5,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace IeltsPlatform.ApiService.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/ielts-tests")]
     [ApiController]
     public class IeltsTestController : Controller
     {
