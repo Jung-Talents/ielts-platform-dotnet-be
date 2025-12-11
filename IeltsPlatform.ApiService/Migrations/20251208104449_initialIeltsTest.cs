@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace IeltsPlatform.ApiService.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialBlog : Migration
+    public partial class initialIeltsTest : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -28,6 +28,11 @@ namespace IeltsPlatform.ApiService.Migrations
                 {
                     table.PrimaryKey("PK_Blogs", x => x.id);
                 });
+
+            migrationBuilder.InsertData(
+                table: "IeltsTests",
+                columns: new[] { "id", "created_at", "deleted_at", "duration", "test_name", "status", "updated_at" },
+                values: new object[] { new Guid("11111111-1111-1111-1111-111111111111"), new DateTimeOffset(new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), null, 40, "IELTS Academic Listening Practice Test 1", "Published", new DateTimeOffset(new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)) });
         }
 
         /// <inheritdoc />

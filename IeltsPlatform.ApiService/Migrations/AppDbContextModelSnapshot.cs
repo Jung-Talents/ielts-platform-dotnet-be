@@ -88,17 +88,17 @@ namespace IeltsPlatform.ApiService.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("duration");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("test_name");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
                         .HasColumnName("status");
-
-                    b.Property<string>("TestName")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("test_name");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -107,133 +107,17 @@ namespace IeltsPlatform.ApiService.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("IeltsTests");
-                });
 
-            modelBuilder.Entity("IeltsPlatform.ApiService.Entities.Section", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("AudioLink")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("audio_link");
-
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<DateTimeOffset?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<Guid>("IeltsTestId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("ielts_test_id");
-
-                    b.Property<int>("SectionNumber")
-                        .HasColumnType("integer")
-                        .HasColumnName("section_number");
-
-                    b.Property<string>("Transcript")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("transcript");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("updated_at");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IeltsTestId");
-
-                    b.ToTable("Sections");
-                });
-
-            modelBuilder.Entity("IeltsPlatform.ApiService.Entities.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("AvatarLink")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("avatar_link");
-
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<DateTimeOffset?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("email");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("password");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
-                        .HasColumnName("phone_number");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("role");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("updated_at");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("username");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Email")
-                        .IsUnique()
-                        .HasFilter("\"deleted_at\" IS NULL");
-
-                    b.HasIndex("Username")
-                        .IsUnique()
-                        .HasFilter("\"deleted_at\" IS NULL");
-
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("IeltsPlatform.ApiService.Entities.Section", b =>
-                {
-                    b.HasOne("IeltsPlatform.ApiService.Entities.IeltsTest", "IeltsTest")
-                        .WithMany("Sections")
-                        .HasForeignKey("IeltsTestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("IeltsTest");
-                });
-
-            modelBuilder.Entity("IeltsPlatform.ApiService.Entities.IeltsTest", b =>
-                {
-                    b.Navigation("Sections");
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Duration = 40,
+                            Name = "IELTS Academic Listening Practice Test 1",
+                            Status = "Published",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        });
                 });
 #pragma warning restore 612, 618
         }
