@@ -7,7 +7,7 @@ A modern, cloud-native IELTS platform backend built with .NET 9, .NET Aspire, AW
 - **Modern Architecture**: Built with .NET 9 and .NET Aspire for cloud-native development
 - **AWS Integration**: Leverages AWS services including ECS Fargate, S3, and DynamoDB
 - **Infrastructure as Code**: Complete Terraform configuration for AWS infrastructure
-- **CI/CD Pipeline**: Jenkins pipeline for automated build, test, and deployment
+- **CI/CD Pipeline**: GitHub Actions workflows for automated build, test, and deployment
 - **Containerization**: Docker support for consistent deployments
 - **Health Checks**: Built-in health monitoring endpoints
 - **Observability**: CloudWatch logging and ECS Container Insights
@@ -19,7 +19,6 @@ A modern, cloud-native IELTS platform backend built with .NET 9, .NET Aspire, AW
 - [Terraform](https://www.terraform.io/downloads) (>= 1.0)
 - [AWS CLI](https://aws.amazon.com/cli/)
 - AWS Account with appropriate permissions
-- Jenkins (for CI/CD)
 
 ## 🏗️ Project Structure
 
@@ -35,7 +34,10 @@ A modern, cloud-native IELTS platform backend built with .NET 9, .NET Aspire, AW
 │   ├── vpc.tf                     # VPC and networking
 │   ├── ecs.tf                     # ECS, ECR, and container definitions
 │   └── alb.tf                     # Application Load Balancer
-├── Jenkinsfile                     # CI/CD pipeline
+├── .github/workflows/             # GitHub Actions workflows
+│   ├── ci-cd.yml                  # Main CI/CD pipeline
+│   ├── pr-check.yml               # Pull request checks
+│   └── README.md                  # Workflows documentation
 └── IeltsPlatform.sln              # Solution file
 ```
 
@@ -142,39 +144,44 @@ docker push <account-id>.dkr.ecr.ap-southeast-2.amazonaws.com/ielts-platform-dev
 aws ecs update-service --cluster ielts-platform-dev-cluster --service ielts-platform-dev-api --force-new-deployment --region ap-southeast-2
 ```
 
-## 🔄 CI/CD with Jenkins
+## 🔄 CI/CD with GitHub Actions
 
-### Jenkins Setup
+### GitHub Actions Setup
 
-1. Install required Jenkins plugins:
-   - AWS Steps Plugin
-   - Docker Pipeline Plugin
-   - Pipeline Plugin
+1. Configure GitHub Secrets (Settings → Secrets and variables → Actions):
+   - `AWS_ACCESS_KEY_ID`: AWS access key ID
+   - `AWS_SECRET_ACCESS_KEY`: AWS secret access key
 
-2. Configure credentials in Jenkins:
-   - `aws-credentials`: AWS access key and secret key
-   - `aws-account-id`: AWS account ID
+2. (Optional) Set up production environment with required reviewers
 
-3. Create a new Pipeline job and point it to the repository
+For detailed configuration, see [.github/workflows/README.md](.github/workflows/README.md)
 
-### Pipeline Stages
+📘 **New to GitHub Actions?** Check out the [Quick Start Guide](GITHUB_ACTIONS_QUICKSTART.md)
 
-The Jenkins pipeline includes:
+### Workflows
 
-1. **Checkout**: Clone the repository
-2. **Install Dependencies**: Restore NuGet packages
-3. **Build**: Compile the solution
-4. **Test**: Run unit tests
-5. **Build Docker Image**: Create container image
-6. **Push to ECR**: Upload to AWS ECR
-7. **Terraform Plan**: Review infrastructure changes
-8. **Terraform Apply**: Apply infrastructure changes (main branch only)
-9. **Deploy to ECS**: Update ECS service (main branch only)
+The GitHub Actions pipeline includes:
+
+#### CI/CD Pipeline (`ci-cd.yml`)
+1. **build-and-test**: Restore dependencies, build, and test
+2. **build-docker**: Build and push Docker image to ECR
+3. **terraform-plan**: Plan infrastructure changes
+4. **deploy-infrastructure**: Apply infrastructure changes (manual trigger only)
+5. **deploy-ecs**: Update ECS service (manual trigger only)
+
+#### Pull Request Check (`pr-check.yml`)
+- Runs on all pull requests
+- Builds and tests code
+- Verifies Docker image can be built
 
 ### Triggering Deployment
 
-- Automatic builds trigger on code push
-- Deployment to AWS requires manual approval via the `DEPLOY_TO_AWS` parameter
+- **Automatic**: Builds and pushes Docker images on push to `main` or `develop` branches
+- **Manual Deployment**: 
+  1. Go to Actions tab → CI/CD Pipeline
+  2. Click "Run workflow"
+  3. Select branch and check "Deploy to AWS ECS"
+  4. Click "Run workflow"
 
 ## 🔍 API Endpoints
 
