@@ -279,3 +279,4 @@ terraform destroy -var="aws_region=us-east-1" -var="environment=dev"
 ```
 
 **Note**: This will delete all resources including data in DynamoDB and S3. Use with caution!
+**TEST push**

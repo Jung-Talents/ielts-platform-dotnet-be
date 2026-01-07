@@ -4,3 +4,15 @@ GET {{ApiService_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+POST {{ApiService_HostAddress}}/api/blogs/
+Content-Type: application/json
+{
+  "blog_name": "My First Blog Post",
+  "blog_content": "This is the content of my first blog post.",
+  "blog_status": "Draft",
+  "blog_theme": "Listening"
+}
+
+###
+GET {{ApiService_HostAddress}}/api/blogs/
+Accept: application/json
