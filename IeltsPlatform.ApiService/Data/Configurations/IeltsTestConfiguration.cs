@@ -1,6 +1,8 @@
 using IeltsPlatform.ApiService.Entities;
+using IeltsPlatform.ApiService.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Threading.Tasks;
 
 namespace IeltsPlatform.ApiService.Data.Configurations
 {
@@ -11,39 +13,31 @@ namespace IeltsPlatform.ApiService.Data.Configurations
             builder.HasKey(t => t.Id);
 
             builder.Property(t => t.Id)
-                .HasColumnName("id");
+                        .HasColumnName("id");
 
             builder.Property(t => t.TestName)
-                .HasColumnName("test_name")
-                .IsRequired()
-                .HasMaxLength(255);
+                        .HasColumnName("test_name")
+                        .HasMaxLength(200)
+                        .IsRequired();
 
             builder.Property(t => t.Duration)
-                .HasColumnName("duration")
-                .IsRequired();
+                        .HasColumnName("duration")
+                        .IsRequired();
 
             builder.Property(t => t.Status)
-                .HasConversion<string>()
-                .HasColumnName("status")
-                .IsRequired()
-                .HasMaxLength(50);
-
-            builder.Property(t => t.CreatedAt)
-                .HasColumnName("created_at")
-                .IsRequired();
+                        .HasConversion<string>()
+                        .HasColumnName("status")
+                        .HasMaxLength(50);
 
             builder.Property(t => t.UpdatedAt)
-                .HasColumnName("updated_at");
+                        .HasColumnName("updated_at");
+
+            builder.Property(t => t.CreatedAt)
+                        .HasColumnName("created_at")
+                        .IsRequired();
 
             builder.Property(t => t.DeletedAt)
-                .HasColumnName("deleted_at");
-
-            // Relationship with Section
-            builder.HasMany(t => t.Sections)
-                .WithOne(s => s.IeltsTest)
-                .HasForeignKey(s => s.IeltsTestId)
-                .OnDelete(DeleteBehavior.Cascade);
+                        .HasColumnName("deleted_at");
         }
     }
 }
-

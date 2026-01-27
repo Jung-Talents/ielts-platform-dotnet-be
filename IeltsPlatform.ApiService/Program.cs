@@ -6,8 +6,12 @@ using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using IeltsPlatform.ApiService.Services.Interfaces;
 using IeltsPlatform.ApiService.Services.Implementations;
+using IeltsPlatform.ApiService.Services.Implementation;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var apiUrl = Environment.GetEnvironmentVariable("ApiBaseUrl") ?? "http://localhost:5381";
+builder.Services.AddHttpClient("Api", client => client.BaseAddress = new Uri(apiUrl));
 
 // Add service defaults & Aspire client integrations.
 builder.AddServiceDefaults();
@@ -39,6 +43,7 @@ builder.Services.AddSwaggerGen();
 
 // Add services
 builder.Services.AddScoped<IBlogService, BlogService>();
+builder.Services.AddScoped<IIeltsTestService, IeltsTestService>();
 
 var app = builder.Build();
 

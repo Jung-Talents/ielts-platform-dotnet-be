@@ -96,8 +96,8 @@ namespace IeltsPlatform.ApiService.Migrations
 
                     b.Property<string>("TestName")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
                         .HasColumnName("test_name");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
