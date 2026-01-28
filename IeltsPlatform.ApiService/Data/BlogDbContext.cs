@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using System.Net.Sockets;
+using IeltsPlatform.ApiService.Models;
 
 namespace IeltsPlatform.ApiService.Data
 {
@@ -15,8 +16,11 @@ namespace IeltsPlatform.ApiService.Data
             optionsBuilder.ConfigureWarnings(w => w.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning));
             base.OnConfiguring(optionsBuilder);
         }
-        // Sample DBSet for Blog entity 
-        public DbSet<Blog> Blogs { get; set; } = null!;
+        // Sample DBSet for Blog entity (placeholder - Blog entity not included in this workspace)
+        // public DbSet<Blog> Blogs { get; set; } = null!;
+        
+        // DBSet for Section entity
+        public DbSet<IeltsPlatform.ApiService.Models.Section> Sections { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
