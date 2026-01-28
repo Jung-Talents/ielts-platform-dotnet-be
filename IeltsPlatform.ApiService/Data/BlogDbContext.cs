@@ -17,6 +17,8 @@ namespace IeltsPlatform.ApiService.Data
         }
         // Sample DBSet for Blog entity 
         public DbSet<Blog> Blogs { get; set; } = null!;
+        // DbSet for Section entity
+        public DbSet<Section> Sections { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
