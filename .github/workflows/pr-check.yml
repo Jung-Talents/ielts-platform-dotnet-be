@@ -1,0 +1,44 @@
+name: Pull Request Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+env:
+  DOTNET_VERSION: '9.0.x'
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore dependencies
+        run: dotnet restore IeltsPlatform.sln
+
+      - name: Build
+        run: dotnet build IeltsPlatform.sln -c Release --no-restore
+
+      - name: Test
+        run: |
+          if [ -d "tests" ]; then
+            dotnet test IeltsPlatform.sln -c Release --no-build --verbosity normal
+          else
+            echo "No test projects found, skipping tests"
+          fi
+
+      - name: Verify Docker build
+        run: |
+          docker build -f ${{ env.PROJECT_NAME }}/Dockerfile -t ielts-platform-api:pr-${{ github.event.pull_request.number }} .
+        env:
+          PROJECT_NAME: 'IeltsPlatform.ApiService'
